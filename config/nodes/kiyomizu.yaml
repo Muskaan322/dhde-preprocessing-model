@@ -1,0 +1,67 @@
+node_key: kiyomizu
+label: "Kiyomizu-dera (清水寺)"
+coordinates:
+  lat: 34.9949
+  lon: 135.785  # Kiyomizu-dera, Higashiyama
+
+sources:
+  # Kyoto node. code4fukui's camera, RSI, hotel and survey datasets are
+  # Fukui-only, and Kyoto has no open daily equivalent, so those are
+  # disabled rather than filled with another prefecture's data.
+  camera:
+    enabled: false
+    reason: >
+      fukui-kanko-people-flow-data covers Fukui sensors only, and no public
+      people-counting camera data was found for Kiyomizu-dera (checked 2026-09-27).
+
+  rsi:
+    enabled: false
+    reason: >
+      fukui-kanko-trend-data tracks Fukui municipalities only. No Kyoto
+      equivalent of its Google Business Profile metrics was found. (Kyoto
+      City open data dataset 00618 is a one-off 2022 road-damage survey of
+      bus route 3, not RSI.)
+
+  hotel:
+    enabled: false
+    reason: >
+      The code4fukui reservation repos cover Fukui areas only. The Kyoto
+      short-stay datasets found (AirROI, Doorstep Analytics) are paid and
+      can't be redistributed from a public repo. Hotel availability comes
+      from the separate rakuten source below.
+
+  weather:
+    enabled: true
+    station_name: "京都 (Kyoto)"
+    prec_no: "61"  # Kyoto
+    block_no: "47759"  # nearest JMA station with temperature, ~5.2km
+    page: hourly_s1
+    start_date: "2024-12-01"
+
+  survey:
+    enabled: false
+    reason: >
+      No open visitor survey with per-response rows was found for Kyoto
+      (Kyoto City's 京都観光総合調査 is annual aggregates only; checked
+      2026-09-27).
+
+  traffic:
+    enabled: true
+    point_code: 6810060
+    distance_km: 3.1
+    reason: >
+      Included but flagged: CCTV counter ~3.1km from Kiyomizu-dera, queried
+      live 2026-09-27. Not confirmed to be the road visitors use. Same
+      counter as kyoto_station and fushimi_inari.
+
+  monthly_visitors:
+    enabled: true
+    repo: japan-kanko-stat
+    city_lgcode: 26105  # 京都市東山区; japan-kanko-stat has wards, not a citywide total
+    pref_lgcode: 26
+
+  rakuten:
+    enabled: true
+    search_radius_km: 3
+    lead_days: [1, 7, 30]
+    adult_num: 2

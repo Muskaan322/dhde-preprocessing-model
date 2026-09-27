@@ -222,6 +222,41 @@ config block.
   2023-11-22 → 2023-12-19; the Kanazawa desk's one zero day is
   2024-01-02, the day after the earthquake.
 
+## Kyoto and Osaka nodes
+
+Kyoto: `kyoto_station`, `arashiyama`, `fushimi_inari`, `kiyomizu`. Osaka:
+`osaka_station`, `namba`, `osaka_castle`, `usj`. Config only, no new
+Python: they run on the cross-prefecture sources added for Ishikawa and
+Toyama (`monthly_visitors`, `rakuten`) plus weather and traffic.
+
+| Source | Kyoto | Osaka |
+|---|---|---|
+| weather | all four, JMA 京都 (`prec_no: "61"`, `block_no: "47759"`), 3.9 to 6.3km | all four, JMA 大阪 (`prec_no: "62"`, `block_no: "47772"`), 1.0 to 8.1km |
+| traffic | all four, flagged; kyoto_station, fushimi_inari and kiyomizu share point 6810060 | all four, flagged; namba, osaka_castle and usj share point 6810980 |
+| monthly_visitors | all four, by ward | all four, by ward |
+| rakuten | all four | all four |
+| camera, survey, rsi, hotel | none | none |
+
+- **monthly_visitors is ward-level here.** japan-kanko-stat has no
+  citywide row for Kyoto City or Osaka City (designated cities), only
+  their wards, so `city_lgcode` holds the ward: 下京区 26106, 右京区
+  26108, 伏見区 26109, 東山区 26105, 北区 27127, 中央区 27128 (both
+  namba and osaka_castle), 此花区 27104. The `city_visitors_month`
+  column is therefore a ward total for these nodes, a smaller area
+  than the Hokuriku city totals. Compare trends across prefectures,
+  not levels.
+- **Shared traffic counters.** JARTIC's CCTV layer has few points in
+  central Kyoto and Osaka. Every node has one within 5.7km (the Komatsu
+  cutoff), but three Kyoto nodes read the same counter and three Osaka
+  nodes read another, so their `volume_*` columns are identical. That's
+  a real limit of the source, not a bug.
+- **Sources checked and not used:** Kyoto City dataset 00618 (a 2022
+  road-damage survey of one bus route, not RSI); AirROI and Doorstep
+  Analytics Kyoto short-stay data (paid, not redistributable);
+  Zen Traffic Data (Hanshin Expressway trajectories, application-only,
+  five one-hour clips); Osaka Prefecture tourism statistics (annual);
+  code4fukui/taiki_osaka air quality (stopped updating 2022-02-24).
+
 ## Why survey is handled differently from the other five sources
 
 The other five sources are naturally one-row-per-day. Survey responses

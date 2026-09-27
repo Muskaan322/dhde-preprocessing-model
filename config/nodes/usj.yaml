@@ -1,0 +1,68 @@
+node_key: usj
+label: "Universal Studios Japan (USJ)"
+coordinates:
+  lat: 34.6654
+  lon: 135.4323  # Universal Studios Japan main gate
+
+sources:
+  # Osaka node. code4fukui's camera, RSI, hotel and survey datasets are
+  # Fukui-only, and Osaka has no open daily equivalent, so those are
+  # disabled rather than filled with another prefecture's data.
+  camera:
+    enabled: false
+    reason: >
+      fukui-kanko-people-flow-data covers Fukui sensors only, and no public
+      people-counting camera data was found for USJ (checked 2026-09-27).
+
+  rsi:
+    enabled: false
+    reason: >
+      fukui-kanko-trend-data tracks Fukui municipalities only. No Osaka
+      equivalent of its Google Business Profile metrics was found.
+
+  hotel:
+    enabled: false
+    reason: >
+      The code4fukui reservation repos cover Fukui areas only; no daily
+      Osaka reservation feed was found (Osaka Prefecture's tourism
+      statistics are annual). Hotel availability comes from the separate
+      rakuten source below.
+
+  weather:
+    enabled: true
+    station_name: "大阪 (Osaka)"
+    prec_no: "62"  # Osaka
+    block_no: "47772"  # nearest JMA station with temperature, ~8.1km
+    page: hourly_s1
+    start_date: "2024-12-01"
+
+  # code4fukui/taiki_osaka (Osaka photochemical oxidant readings) was
+  # considered as a weather companion, but it stopped updating on
+  # 2022-02-24, before this pipeline's 2024-12 start, so no source reads it.
+
+  survey:
+    enabled: false
+    reason: >
+      No open visitor survey with per-response rows was found for Osaka
+      (checked 2026-09-27).
+
+  traffic:
+    enabled: true
+    point_code: 6810980
+    distance_km: 5.5
+    reason: >
+      Included but flagged: CCTV counter ~5.5km from USJ, queried live
+      2026-09-27. Not confirmed to be the road visitors use. Same counter as
+      namba and osaka_castle.
+
+  monthly_visitors:
+    enabled: true
+    repo: japan-kanko-stat
+    city_lgcode: 27104  # 大阪市此花区; japan-kanko-stat has wards, not a citywide total
+    pref_lgcode: 27
+
+  rakuten:
+    enabled: true
+    search_radius_km: 3
+    lead_days: [1, 7, 30]
+    adult_num: 2

@@ -17,11 +17,12 @@ def test_resolve_path_joins_without_mangling_s3_uri(monkeypatch):
     assert resolve_path("some-repo/data.csv") == "s3://my-bucket/dhde/some-repo/data.csv"
 
 
-def test_list_configured_nodes_finds_all_twelve():
+def test_list_configured_nodes_finds_all_twenty():
     nodes = list_configured_nodes()
     assert nodes == [
-        "fukui_station", "himi", "kaga_onsen", "kanazawa", "katsuyama", "komatsu", "nanao",
-        "rainbow_line", "takaoka", "tateyama", "tojinbo", "toyama_station",
+        "arashiyama", "fukui_station", "fushimi_inari", "himi", "kaga_onsen", "kanazawa", "katsuyama",
+        "kiyomizu", "komatsu", "kyoto_station", "namba", "nanao", "osaka_castle", "osaka_station",
+        "rainbow_line", "takaoka", "tateyama", "tojinbo", "toyama_station", "usj",
     ]
 
 
